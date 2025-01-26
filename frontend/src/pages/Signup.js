@@ -17,7 +17,7 @@ const Signup = () => {
         confirmPassword: '',
         profilePic: '',
     });
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -46,14 +46,14 @@ const Signup = () => {
 
             if (dataApi.success) {
                 toast.success(dataApi.message);
-                navigate("/Login")
+                navigate('/Login');
             }
 
             if (dataApi.error) {
                 toast.error(dataApi.message);
             }
         } else {
-            console.log('Please check password and confirm password');
+            toast.error('Please check password and confirm password');
         }
     };
 
