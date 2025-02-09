@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
 import displayVNDCurrency from '../helpers/displayVNDCurrency';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import addToCart from '../helpers/addToCart';
 
 const HorizontalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -54,28 +56,25 @@ const HorizontalCardProduct = ({ category, heading }) => {
                     ? loadingList.map((product, index) => {
                           return (
                               <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow-md flex">
-                                  <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w[145px] animate-pulse">
-                                      
-                                  </div>
+                                  <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w[145px] animate-pulse"></div>
                                   <div className="p-2 grid w-full gap-2">
-                                      <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse p-1 rounded-full">
-                                          
-                                      </h2>
+                                      <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse p-1 rounded-full"></h2>
                                       <p className="capitalize text-slate-500 p-1 bg-slate-200 animate-pulse rounded-full"></p>
                                       <div className="flex gap-2 w-full">
                                           <p className="text-red-600 font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full"></p>
                                           <p className="text-slate-500 line-through p-1 bg-slate-200 w-full animate-pulse rounded-full"></p>
                                       </div>
-                                      <button className="text-sm  text-white px-3 py-0.5 transition-all rounded-full w-full bg-slate-200 animate-pulse p-1">
-                                         
-                                      </button>
+                                      <button className="text-sm  text-white px-3 py-0.5 transition-all rounded-full w-full bg-slate-200 animate-pulse p-1"></button>
                                   </div>
                               </div>
                           );
                       })
                     : data.map((product, index) => {
                           return (
-                              <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow-md flex">
+                              <Link
+                                  to={'Product/' + product?._id}
+                                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow-md flex"
+                              >
                                   <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w[145px]">
                                       <img
                                           src={product.productImage[0]}
@@ -95,11 +94,14 @@ const HorizontalCardProduct = ({ category, heading }) => {
                                               {displayVNDCurrency(product?.price)}
                                           </p>
                                       </div>
-                                      <button className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 transition-all rounded-full">
+                                      <button
+                                          onClick={(e) => addToCart(e, product?._id)}
+                                          className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 transition-all rounded-full"
+                                      >
                                           Add to Cart
                                       </button>
                                   </div>
-                              </div>
+                              </Link>
                           );
                       })}
             </div>
