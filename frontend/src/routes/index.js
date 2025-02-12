@@ -9,6 +9,8 @@ import AllUser from '../pages/AllUser';
 import AllProducts from '../pages/AllProducts';
 import CategoryProduct from '../pages/CategoryProduct';
 import ProductDetails from '../pages/ProductDetails';
+import React, { lazy, Suspense } from 'react';
+
 const router = createBrowserRouter([
     {
         path: '',
@@ -16,31 +18,59 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Home />,
+                element: (
+                    <Suspense fallback={<div>Loading Home...</div>}>
+                        <Home />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Login',
-                element: <Login />,
+                element: (
+                    <Suspense fallback={<div>Loading Login...</div>}>
+                        <Login />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Forgot-password',
-                element: <ForgotPassword />,
+                element: (
+                    <Suspense fallback={<div>Loading ForgotPassword...</div>}>
+                        <ForgotPassword />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Sign-up',
-                element: <Signup />,
+                element: (
+                    <Suspense fallback={<div>Loading SignUp...</div>}>
+                        <Signup />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Product-category/:categoryName',
-                element: <CategoryProduct />,
+                element: (
+                    <Suspense fallback={<div>Loading Category Product...</div>}>
+                        <CategoryProduct />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Product/:id',
-                element: <ProductDetails />,
+                element: (
+                    <Suspense fallback={<div>Loading Product Details...</div>}>
+                        <ProductDetails />
+                    </Suspense>
+                ),
             },
             {
                 path: 'Admin-panel',
-                element: <AdminPanel />,
+                element: (
+                    <Suspense fallback={<div>Loading Admin Page...</div>}>
+                        <AdminPanel />
+                    </Suspense>
+                ),
                 children: [
                     {
                         path: 'All-users',

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
 import displayVNDCurrency from '../helpers/displayVNDCurrency';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import addToCart from '../helpers/addToCart';
 
 const VerticalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -69,7 +71,10 @@ const VerticalCardProduct = ({ category, heading }) => {
                       })
                     : data.map((product, index) => {
                           return (
-                              <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow-md">
+                              <Link
+                                  to={'Product/' + product?._id}
+                                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow-md"
+                              >
                                   <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w[145px] flex justify-center items-center">
                                       <img
                                           src={product.productImage[0]}
@@ -89,11 +94,14 @@ const VerticalCardProduct = ({ category, heading }) => {
                                               {displayVNDCurrency(product?.price)}
                                           </p>
                                       </div>
-                                      <button className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 transition-all rounded-full">
+                                      <button
+                                          className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 transition-all rounded-full"
+                                          onClick={(e) => addToCart(e, product?._id)}
+                                      >
                                           Add to Cart
                                       </button>
                                   </div>
-                              </div>
+                              </Link>
                           );
                       })}
             </div>
