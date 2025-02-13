@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
 import displayVNDCurrency from '../helpers/displayVNDCurrency';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
+import Context from '../context';
 
 const CategoryWiseProductDisplay = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -12,6 +13,13 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
 
     const [scroll, setScroll] = useState(0);
     const scrollElement = useRef();
+
+    const { fetchUserAddToCart } = useContext(Context);
+
+    const handleAddToCart = async (e, id) => {
+        await addToCart(e, id);
+        fetchUserAddToCart();
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -30,7 +38,10 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
         <div className="container mx-auto px-4 my-6 relative">
             <h2 className="text-lg font-semibold py-4">{heading}</h2>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,320px))] justify-between gap-4 md:gap-6 overflow-x-scroll scrollbar-none transition-all" ref={scrollElement}>
+            <div
+                className="grid grid-cols-[repeat(auto-fit,minmax(300px,320px))] justify-between gap-4 md:gap-6 overflow-x-scroll scrollbar-none transition-all"
+                ref={scrollElement}
+            >
                 {loading
                     ? loadingList.map((product, index) => {
                           return (
@@ -75,7 +86,7 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
                                       </div>
                                       <button
                                           className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 transition-all rounded-full"
-                                          onClick={(e) => addToCart(e, product?._id)}
+                                          onClick={(e) => handleAddToCart(e, product?._id)}
                                       >
                                           Add to Cart
                                       </button>

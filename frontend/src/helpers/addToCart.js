@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
+import Context from '../context';
 
 const addToCart = async (e, id) => {
     e?.stopPropagation();
@@ -23,6 +25,8 @@ const addToCart = async (e, id) => {
     if (responseData.error) {
         toast.error(responseData.message);
     }
+
+    return responseData;
 };
 
 export default addToCart;
