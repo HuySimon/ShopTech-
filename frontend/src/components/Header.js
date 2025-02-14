@@ -15,6 +15,7 @@ const Header = () => {
     const user = useSelector((state) => state?.user?.user);
     const dispatch = useDispatch();
     const [menuDisplay, setMenuDisplay] = useState(false);
+    const [menuCartDisplay, setMenuCartDisplay] = useState(false);
     const context = useContext(Context);
 
     const handleLogout = async () => {
@@ -82,13 +83,30 @@ const Header = () => {
                     </div>
 
                     {user?._id && (
-                        <div className="text-3xl relative">
+                        <div
+                            className="text-3xl relative cursor-pointer"
+                            onClick={() => setMenuCartDisplay((preve) => !preve)}
+                        >
                             <span>
                                 <FaShoppingCart />
                             </span>
                             <div className="bg-red-500 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
                                 <p className="text-sm">{context?.cartProductCount}</p>
                             </div>
+
+                            {menuCartDisplay && (
+                                <div className="absolute bg-white bottom-0 top-11 -left-32 h-fit p-2 rounded shadow-lg">
+                                    <nav>
+                                        <Link
+                                            to={'/Cart'}
+                                            className="whitespace-nowrap p-2 md:block text-base hover:underline z-50"
+                                            onClick={() => setMenuCartDisplay((preve) => !preve)}
+                                        >
+                                            View and edit shopping cart
+                                        </Link>
+                                    </nav>
+                                </div>
+                            )}
                         </div>
                     )}
 

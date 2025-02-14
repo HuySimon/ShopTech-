@@ -9,6 +9,7 @@ import AllUser from '../pages/AllUser';
 import AllProducts from '../pages/AllProducts';
 import CategoryProduct from '../pages/CategoryProduct';
 import ProductDetails from '../pages/ProductDetails';
+import Cart from '../pages/Cart';
 import React, { lazy, Suspense } from 'react';
 
 const router = createBrowserRouter([
@@ -61,6 +62,14 @@ const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={<div>Loading Product Details...</div>}>
                         <ProductDetails />
+                    </Suspense>
+                ),
+            },
+            {
+                path: 'Cart',
+                element: (
+                    <Suspense fallback={<div>Loading Cart...</div>}>
+                        <Cart />
                     </Suspense>
                 ),
             },

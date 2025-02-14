@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 
 const addToCartSchema = new mongoose.Schema(
   {
-    productId: String,
-    quantity : Number,
-    userId : String,
+    productId: {
+      ref: "product",
+      type: String,
+    },
+    quantity: Number,
+    userId: String,
   },
   {
     timestamps: true,
