@@ -40,7 +40,27 @@ const Cart = () => {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
+                _id: id,
                 quantity: qty + 1,
+            }),
+        });
+        const responseData = await response.json();
+
+        if (responseData.success) {
+            fetchData();
+            // context.fetchUserAddToCart();
+        }
+    };
+
+    const deleteCartProduct = async (id) => {
+        const response = await fetch(SummaryApi.deleteCartProduct.url, {
+            method: SummaryApi.deleteCartProduct.method,
+            credentials: 'include',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                _id: id,
             }),
         });
         const responseData = await response.json();
@@ -59,6 +79,7 @@ const Cart = () => {
                     'content-type': 'application/json',
                 },
                 body: JSON.stringify({
+                    _id: id,
                     quantity: qty - 1,
                 }),
             });
@@ -66,6 +87,7 @@ const Cart = () => {
 
             if (responseData.success) {
                 fetchData();
+                context.fetchUserAddToCart();
             }
         }
     };
@@ -102,7 +124,10 @@ const Cart = () => {
                                       </div>
                                       <div className="px-4 py-2 relative">
                                           {/* delete product */}
-                                          <div className="absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer">
+                                          <div
+                                              onClick={() => deleteCartProduct(product?._id)}
+                                              className="absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer"
+                                          >
                                               <MdDelete />
                                           </div>
                                           <h2 className="text-lg lg:text-xl text-ellipsis line-clamp-1">

@@ -4,13 +4,16 @@ const userModel = require("../../models/userModels");
 async function updateAddToCartProduct(req, res) {
   try {
     const currentUserId = req?.userId;
-    const addToCartProductId = req?.body._id;
+    const addToCartProductId = req?.body?._id;
 
-    const qty = req?.body.quantity;
+    const qty = req?.body?.quantity;
 
-    const updateProduct = await addToCartModel.updateOne(addToCartProductId, {
-      ...(qty && { quantity: qty }),
-    });
+    const updateProduct = await addToCartModel.updateOne(
+      { _id: addToCartProductId },
+      {
+        ...(qty && { quantity: qty }),
+      }
+    );
 
     res.json({
       message: "Product Updated",

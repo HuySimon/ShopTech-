@@ -68,9 +68,9 @@ const router = createBrowserRouter([
             {
                 path: 'Cart',
                 element: (
-                    <Suspense fallback={<div>Loading Cart...</div>}>
-                        <Cart />
-                    </Suspense>
+                    // <Suspense fallback={<div>Loading Cart...</div>}>
+                    <Cart />
+                    // </Suspense>
                 ),
             },
             {
