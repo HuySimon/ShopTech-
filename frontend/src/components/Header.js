@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Logo from './Logo';
 import { GrSearch } from 'react-icons/gr';
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
@@ -17,6 +17,10 @@ const Header = () => {
     const [menuDisplay, setMenuDisplay] = useState(false);
     const [menuCartDisplay, setMenuCartDisplay] = useState(false);
     const context = useContext(Context);
+    const navigate = useNavigate();
+    const searchInput = useLocation();
+    const [search, setSearch] = useState(searchInput?.search?.split('=')[1] || '');
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
     const handleLogout = async () => {
         const fetchData = await fetch(SummaryApi.logout_user.url, {
@@ -36,7 +40,31 @@ const Header = () => {
         }
     };
 
-    console.log('header add to cart count', context);
+    const handleSearch = (e) => {
+        // const { value } = e.target;
+        setSearch(e.target.value);
+        // if (value) {
+        //     navigate(`/Search?q=${value}`);
+        // } else {
+        //     navigate('/Search');
+        // }
+    };
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchTerm(search);
+        }, 500); // Chờ 500ms mới cập nhật state
+
+        return () => {
+            clearTimeout(handler); // Xóa timeout nếu user nhập tiếp
+        };
+    }, [search]);
+
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            navigate(`/Search?q=${debouncedSearchTerm}`);
+        }
+    }, [debouncedSearchTerm]);
     return (
         <header className="h-16 shadow-md bg-white fixed w-full z-40">
             <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -47,7 +75,13 @@ const Header = () => {
                 </div>
 
                 <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2">
-                    <input type="text" placeholder="search products here..." className="w-full outline-none" />
+                    <input
+                        onChange={handleSearch}
+                        value={search}
+                        type="text"
+                        placeholder="search products here..."
+                        className="w-full outline-none"
+                    />
                     <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
                         <GrSearch />
                     </div>

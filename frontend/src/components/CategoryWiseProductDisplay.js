@@ -5,6 +5,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
 import Context from '../context';
+import scrollTop from '../helpers/scrollTop';
 
 const CategoryWiseProductDisplay = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -39,7 +40,7 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
             <h2 className="text-lg font-semibold py-4">{heading}</h2>
 
             <div
-                className="grid grid-cols-[repeat(auto-fit,minmax(300px,320px))] justify-between gap-4 md:gap-6 overflow-x-scroll scrollbar-none transition-all"
+                className="grid grid-cols-[repeat(auto-fit,minmax(260px,300px))] justify-center md:justify-between gap-4 md:gap-1 overflow-x-scroll scrollbar-none transition-all"
                 ref={scrollElement}
             >
                 {loading
@@ -62,8 +63,9 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
                     : data.map((product, index) => {
                           return (
                               <Link
-                                  to={'Product/' + product?._id}
-                                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow-md"
+                                  to={'/Product/' + product?._id}
+                                  className="w-full min-w-[280px] md:min-w-[300px] max-w-[280px] md:max-w-[310px] bg-white rounded-sm shadow-md mt-2"
+                                  onClick={scrollTop}
                               >
                                   <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w[145px] flex justify-center items-center">
                                       <img
