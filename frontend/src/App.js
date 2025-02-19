@@ -35,7 +35,6 @@ function App() {
         });
 
         const dataApi = await dataResponse.json();
-        console.log('dataApi', dataApi);
 
         setCartProductCount(dataApi?.data?.count);
     };

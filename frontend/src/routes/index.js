@@ -51,7 +51,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: 'Product-category/:categoryName',
+                path: 'Product-category',
                 element: (
                     <Suspense fallback={<div>Loading Category Product...</div>}>
                         <CategoryProduct />
