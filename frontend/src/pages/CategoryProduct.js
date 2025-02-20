@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import productCategory from '../helpers/productCategory';
 import VerticalCard from '../components/VerticalCard';
@@ -19,6 +19,7 @@ const CategoryProduct = () => {
 
     const [selectCategory, setSelectCategory] = useState(urlCategoryListObject);
     const [filterCategoryList, setFilterCategoryList] = useState([]);
+    const [sortBy, setSortBy] = useState('');
 
     const fecthData = async () => {
         const response = await fetch(SummaryApi.filterProduct.url, {
@@ -72,6 +73,24 @@ const CategoryProduct = () => {
 
         navigate('/Product-category?' + urlFormat.join(''));
     }, [selectCategory]);
+
+    const handleOnChangeSortBy = (e) => {
+        const { value } = e.target;
+
+        setSortBy(value);
+
+        setData((prev) => {
+            const sortedData = [...prev].sort((a, b) => {
+                return value === 'asc' ? a.sellingPrice - b.sellingPrice : b.sellingPrice - a.sellingPrice;
+            });
+
+            return sortedData;
+        });
+    };
+
+    useEffect(() => {
+
+    }, [sortBy]);
     return (
         <div className="container mx-auto p-4">
             {/* desktop version */}
@@ -86,12 +105,24 @@ const CategoryProduct = () => {
 
                         <form className="text-sm flex flex-col gap-2 py-2">
                             <div className="flex items-center gap-3">
-                                <input type="radio" name="sortBy" />
+                                <input
+                                    type="radio"
+                                    name="sortBy"
+                                    value={'asc'}
+                                    onChange={handleOnChangeSortBy}
+                                    checked={sortBy === 'asc'}
+                                />
                                 <label>Price - Low to High</label>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <input type="radio" name="sortBy" />
+                                <input
+                                    type="radio"
+                                    name="sortBy"
+                                    value={'dsc'}
+                                    onChange={handleOnChangeSortBy}
+                                    checked={sortBy === 'dsc'}
+                                />
                                 <label>Price - High to Low</label>
                             </div>
                         </form>
